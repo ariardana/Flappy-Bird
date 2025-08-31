@@ -113,25 +113,35 @@ class FlappyBirdGame {
         const menuButton = document.getElementById('menuButton');
         
         const __start = (e) => { e && e.preventDefault && e.preventDefault(); this.startGame(); };
-startButton.addEventListener('click', __start);
-startButton.addEventListener('touchend', __start, { passive: false });
-startButton.addEventListener('pointerup', __start, { passive: false });
+    if (startButton) {
+        startButton.addEventListener('click', __start);
+        startButton.addEventListener('touchend', __start, { passive: false });
+        startButton.addEventListener('pointerup', __start, { passive: false });
+    }
         const __restart = (e) => { e && e.preventDefault && e.preventDefault(); this.restartGame(); };
-restartButton.addEventListener('click', __restart);
-restartButton.addEventListener('touchend', __restart, { passive: false });
-restartButton.addEventListener('pointerup', __restart, { passive: false });
+    if (restartButton) {
+        restartButton.addEventListener('click', __restart);
+        restartButton.addEventListener('touchend', __restart, { passive: false });
+        restartButton.addEventListener('pointerup', __restart, { passive: false });
+    }
         const __menu = (e) => { e && e.preventDefault && e.preventDefault(); this.showMenu(); };
-menuButton.addEventListener('click', __menu);
-menuButton.addEventListener('touchend', __menu, { passive: false });
-menuButton.addEventListener('pointerup', __menu, { passive: false });
+    if (menuButton) {
+        menuButton.addEventListener('click', __menu);
+        menuButton.addEventListener('touchend', __menu, { passive: false });
+        menuButton.addEventListener('pointerup', __menu, { passive: false });
+    }
         
-        // Update best score display
-        document.getElementById('bestScore').textContent = this.bestScore;
+        // Update best score display (guarded)
+        const bestScoreEl = document.getElementById('bestScore');
+        if (bestScoreEl) bestScoreEl.textContent = this.bestScore;
+
         const startOverlay = document.getElementById('startScreen');
         const startAnywhere = (e) => { e && e.preventDefault && e.preventDefault(); if (this.gameState === 'menu') this.startGame(); };
-        startOverlay.addEventListener('click', startAnywhere);
-        startOverlay.addEventListener('touchend', startAnywhere, { passive: false });
-        startOverlay.addEventListener('pointerup', startAnywhere, { passive: false });
+        if (startOverlay) {
+            startOverlay.addEventListener('click', startAnywhere);
+            startOverlay.addEventListener('touchend', startAnywhere, { passive: false });
+            startOverlay.addEventListener('pointerup', startAnywhere, { passive: false });
+        }
     }
     
     handleInput() {
@@ -149,19 +159,25 @@ menuButton.addEventListener('pointerup', __menu, { passive: false });
         this.particles = [];
         this.generatePipes();
         
-        document.getElementById('startScreen').classList.add('hidden');
-        document.getElementById('currentScore').textContent = this.score;
+        const startScreenEl = document.getElementById('startScreen');
+        if (startScreenEl) startScreenEl.classList.add('hidden');
+        
+        const currentScoreEl = document.getElementById('currentScore');
+        if (currentScoreEl) currentScoreEl.textContent = this.score;
     }
     
     restartGame() {
-        document.getElementById('gameOverScreen').classList.add('hidden');
+        const gameOverEl = document.getElementById('gameOverScreen');
+        if (gameOverEl) gameOverEl.classList.add('hidden');
         this.startGame();
     }
     
     showMenu() {
         this.gameState = 'menu';
-        document.getElementById('gameOverScreen').classList.add('hidden');
-        document.getElementById('startScreen').classList.remove('hidden');
+        const gameOverEl = document.getElementById('gameOverScreen');
+        if (gameOverEl) gameOverEl.classList.add('hidden');
+        const startScreenEl = document.getElementById('startScreen');
+        if (startScreenEl) startScreenEl.classList.remove('hidden');
     }
     
     gameOver() {
@@ -173,23 +189,30 @@ menuButton.addEventListener('pointerup', __menu, { passive: false });
             localStorage.setItem('flappyBirdBest', this.bestScore.toString());
         }
         
-        // Show game over screen
-        document.getElementById('finalScore').textContent = `Score: ${this.score}`;
-        document.getElementById('bestScore').textContent = `Best: ${this.bestScore}`;
-        document.getElementById('gameOverScreen').classList.remove('hidden');
+        // Show game over screen (guarded)
+        const finalScoreEl = document.getElementById('finalScore');
+        if (finalScoreEl) finalScoreEl.textContent = `Score: ${this.score}`;
+        const bestScoreEl = document.getElementById('bestScore');
+        if (bestScoreEl) bestScoreEl.textContent = `Best: ${this.bestScore}`;
+        const gameOverEl = document.getElementById('gameOverScreen');
+        if (gameOverEl) gameOverEl.classList.remove('hidden');
         
         // Create explosion effect
         this.createParticles(this.bird.x, this.bird.y, '#e74c3c', 15);
     }
     
     generatePipes() {
-        const pipeHeight = Math.random() * (this.canvas.height - this.pipeGap - 200) + 100;
+        // Ensure a safe range for pipe height even on small viewports
+        const minPipeHeight = 100;
+        const maxAvailable = Math.max(minPipeHeight, this.canvas.height - this.pipeGap - 200);
+        const pipeHeight = Math.random() * (maxAvailable - minPipeHeight) + minPipeHeight;
         this.pipes.push(new Pipe(this.canvas.width, pipeHeight, this.pipeGap));
     }
     
     updateScore() {
         this.score++;
-        document.getElementById('currentScore').textContent = this.score;
+        const currentScoreEl = document.getElementById('currentScore');
+        if (currentScoreEl) currentScoreEl.textContent = this.score;
         this.createParticles(this.canvas.width / 2, 50, '#2ecc71', 8);
     }
     
