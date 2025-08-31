@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+    <title>Flappy Bird - HTML5 Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1>Flappy Bird</h1>
+            <div class="score-display">
+                <span>Score: </span>
+                <span id="currentScore">0</span>
+            </div>
+        </div>
+        
+        <div class="canvas-container">
+            <canvas id="gameCanvas" width="800" height="600"></canvas>
+            
+            <div id="startScreen" class="game-screen">
+                <div class="screen-content">
+                    <h2>Flappy Bird</h2>
+                    <p>Tap or Click to fly</p>
+                    <button id="startButton" class="game-button">Start Game</button>
+                    <div class="instructions">
+                        <p>🖱️ Click or tap to jump</p>
+                        <p>⌨️ Use SPACEBAR to jump</p>
+                        <p>🎯 Avoid the pipes!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="gameOverScreen" class="game-screen hidden">
+                <div class="screen-content">
+                    <h2>Game Over!</h2>
+                    <p id="finalScore">Score: 0</p>
+                    <p id="bestScore">Best: 0</p>
+                    <button id="restartButton" class="game-button">Play Again</button>
+                    <button id="menuButton" class="game-button secondary">Menu</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls-info">
+            <p>Desktop: Press <kbd>SPACE</kbd> to jump | Mobile: Tap screen to jump</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
