@@ -96,10 +96,17 @@ class FlappyBirdGame {
             this.mouseDown = false;
         });
         
-        // Touch controls
-        this.canvas.addEventListener('touchstart', (e) => { e.preventDefault(); this.touchActive = true; this.handleInput(); }, { passive: false });
-        
-        this.canvas.addEventListener('touchend', (e) => { e.preventDefault(); this.touchActive = false; }, { passive: false });
+        // Touch / pointer controls (mobile-friendly)
+        this.canvas.addEventListener('pointerdown', (e) => {
+            e.preventDefault();
+            this.touchActive = true;
+            this.handleInput();
+        }, { passive: false });
+
+        this.canvas.addEventListener('pointerup', (e) => {
+            e.preventDefault();
+            this.touchActive = false;
+        }, { passive: false });
         
         // Prevent context menu
         this.canvas.addEventListener('contextmenu', (e) => {
@@ -115,20 +122,17 @@ class FlappyBirdGame {
         const __start = (e) => { e && e.preventDefault && e.preventDefault(); this.startGame(); };
     if (startButton) {
         startButton.addEventListener('click', __start);
-        startButton.addEventListener('touchend', __start, { passive: false });
-        startButton.addEventListener('pointerup', __start, { passive: false });
+        startButton.addEventListener('pointerdown', __start, { passive: false });
     }
         const __restart = (e) => { e && e.preventDefault && e.preventDefault(); this.restartGame(); };
     if (restartButton) {
         restartButton.addEventListener('click', __restart);
-        restartButton.addEventListener('touchend', __restart, { passive: false });
-        restartButton.addEventListener('pointerup', __restart, { passive: false });
+        restartButton.addEventListener('pointerdown', __restart, { passive: false });
     }
         const __menu = (e) => { e && e.preventDefault && e.preventDefault(); this.showMenu(); };
     if (menuButton) {
         menuButton.addEventListener('click', __menu);
-        menuButton.addEventListener('touchend', __menu, { passive: false });
-        menuButton.addEventListener('pointerup', __menu, { passive: false });
+        menuButton.addEventListener('pointerdown', __menu, { passive: false });
     }
         
         // Update best score display (guarded)
@@ -139,8 +143,7 @@ class FlappyBirdGame {
         const startAnywhere = (e) => { e && e.preventDefault && e.preventDefault(); if (this.gameState === 'menu') this.startGame(); };
         if (startOverlay) {
             startOverlay.addEventListener('click', startAnywhere);
-            startOverlay.addEventListener('touchend', startAnywhere, { passive: false });
-            startOverlay.addEventListener('pointerup', startAnywhere, { passive: false });
+            startOverlay.addEventListener('pointerdown', startAnywhere, { passive: false });
         }
     }
     
