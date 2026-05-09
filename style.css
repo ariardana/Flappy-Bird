@@ -58,6 +58,7 @@ body {
 
 #gameCanvas {
     display: block;
+    touch-action: none;
     background: linear-gradient(to bottom, #87CEEB 0%, #98D8E8 70%, #90EE90 100%);
     width: 100%;
     height: auto;
@@ -119,6 +120,8 @@ body {
 }
 
 .game-button {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
     font-family: 'Press Start 2P', monospace;
     font-size: 14px;
     padding: 15px 30px;
@@ -280,6 +283,7 @@ kbd {
 
 #gameCanvas {
     display: block;
+    touch-action: none;
     width: 100%;
     height: 100%;
     touch-action: none; /* prevent double-tap zoom/pan while playing */
